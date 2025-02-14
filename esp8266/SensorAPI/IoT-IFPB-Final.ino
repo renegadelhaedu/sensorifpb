@@ -8,7 +8,7 @@ const char * ssid = "Informatica";
 const char * password = "1234567890";
 
 //Dados do servidor (IP e porta do serviço)
-String ipLocal = "192.168.0.102";
+String ipLocal = "192.168.0.100";
 String portaLocal = "5000";
 
 //Cada equipe deverá ter um nome diferente para armazenar no banco de dados
@@ -72,7 +72,7 @@ void loop() {
     //Específica o cabeçalho do Content-Type: application/json
     http.addHeader("Content-Type", "application/json");
     //Especifica os dados que serão enviados por HTTP POST
-    String httpRequestData = "{\"distancia\":" + String(distancia) + ", \"equipe\":\"" + String(equipe) + "\"}";       
+    String httpRequestData = "{\"distancia\":" + String(distancia) + ", \"equipe\":\"" + String(equipe) + "\"}";
     //Envia requisição por HTTP POST
     int httpResponseCode = http.POST(httpRequestData);
 

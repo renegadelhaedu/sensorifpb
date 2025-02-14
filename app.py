@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify, render_template
 import sqlite3 as sqlite
 
-
+#framework python: servidor que recebe requisições e devolve respostas
 app = Flask(__name__)
 
 #ip_local = '192.168.68.57'
-ip_local = '192.168.1.36'
+ip_local = '192.168.0.100:5000'
 #ip_local = 'localhost'
 porta_Local = 5000
 
@@ -48,21 +48,21 @@ class DadosSensor():
         cursor = conn.cursor()
         cursor.execute('SELECT * FROM dados_sensor order by id desc')
         dados = cursor.fetchall()
-        objetos = []
-        for dado in dados:
+        objetos = [] #inicia a lista fazia
+        for dado in dados:#recupera os dados do sqlite e preenche a lista
             objetos.append(DadosSensor(equipe=dado[1], distancia=dado[2], id=dado[0], envio=dado[3]))
-        conn.close()
-        return objetos
-    
+        conn.close() #fecha a conexao com o BD
+        return objetos #retorno a lista com os objetos dentro (equipe, distância)
 
 
-@app.route('/api/sensor', methods=['POST'])
+@app.route('/api/sensor', methods=['POST']) #cadastrando uma rota
 def recebe_dados_sensor():
-    data = request.json
+    data = request.json #pegue a requisiçao que veio do cliente
     print(data)
    
     if 'distancia' not in data or 'equipe' not in data:
         return jsonify({'error': 'equipe ou distancia não informada'}), 400
+
 
     dados_sensor = DadosSensor(equipe=data['equipe'], distancia=data['distancia'])
     dados_sensor.salvar()
@@ -71,8 +71,7 @@ def recebe_dados_sensor():
 
 @app.route('/', methods=['GET'])
 def index():
-    dados = DadosSensor.buscar_todos() 
-
+    dados = DadosSensor.buscar_todos()#receber os objetos (equipe, dist)
     return render_template('index.html', dados_sensor=dados)
 
 if __name__ == '__main__':
