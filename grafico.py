@@ -9,7 +9,7 @@ def gerar_grafico2(sensor, hora_data, nome_sensor):
         y=sensor,
         mode='lines+markers',
         name=nome_sensor,
-        line=dict(shape='spline', smoothing=1.3)  # Suavização ativada
+        marker=dict(size=3, color='red')
     ))
     fig.update_layout(title="Variação de +" + nome_sensor,
                       xaxis_title="Horário",

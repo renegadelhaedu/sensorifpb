@@ -49,3 +49,18 @@ def get_sensor(nome_sensor):
     conn.close()
     return objetos
 
+
+def login(email, senha):
+    conn = sqlite.connect('db2.sqlite')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM usuarios WHERE login='{email}' and senha= '{senha}'")
+
+    dados = cursor.fetchall()#traz os dados
+
+    conn.close()
+    if len(dados) > 0:
+        return True
+    else:
+        return False
+
+
